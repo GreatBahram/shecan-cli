@@ -23,5 +23,6 @@ $ shecan/bin/pip install shecan
 
 * Run ``shecan update`` - it will get shecan dns nameservers and save them into database.
 * Run ``shecan list`` it will show shecan dns name servers from the database.
-* Run ``shecan set --id 1 --temporary`` It will configure your DNS temporarily by moving your current `/etc/resolv.conf` file and replace it with shecan DNS name server.
-* Run ``shecan verify`` It will check your DNS name server and make sure that shecan works fine for you.
+* Run ``shecan set --temporary`` It will configure your DNS temporarily by moving your current `/etc/resolv.conf` file and replace it with shecan DNS name server.
+* Run ``shecan verify`` It will check your DNS configuration and make sure that shecan works fine for you.
+* Run ``shecan --help`` It will show full command-line options and subcommands.
