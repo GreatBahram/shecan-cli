@@ -69,7 +69,6 @@ def shecan_cli():
         action="store",
         type=int,
         default=False,
-        required='required',
         help="Which dns server should be set.",
     )
     group = set_.add_mutually_exclusive_group(required=True)
@@ -113,7 +112,10 @@ def shecan_cli():
         verify_dns()
     elif args.op == 'set':
         with _dns_db():
-            dns = shecan.get(args.id)
+            if args.id:
+                dns = [shecan.get(args.id)]
+            else:
+                dns = shecan.list_dns()
             if args.mode == 'temporary':
                 resolv_file = path.join('/etc', 'resolv.conf')
                 tmp_resolv_file = path.join(gettempdir(), 'resolv.conf')
@@ -122,7 +124,8 @@ def shecan_cli():
                         shutil.move(resolv_file, tmp_resolv_file)
                         logger.debug(f'shecan moved {resolv_file} to {tmp_resolv_file}')
                         with open(resolv_file, mode='wt') as r_file:
-                            r_file.write(f'nameserver {dns.ip}')
+                            for item in dns:
+                                r_file.write(f'nameserver {item.ip}\n')
                     except OSError as e:
                         logger.error(
                                 f'Could not move resolv file ({resolv_file}) to '
@@ -130,7 +133,7 @@ def shecan_cli():
                 else:
                     logger.info(f"No resolv file to move ({resolv_file})")
             else:
-                raise KeyError('ID does not exist.')
+                raise NotImplementedError('This feature has not been implemented yet.')
 
 
 if __name__ == '__main__':
