@@ -25,6 +25,7 @@ setup(
     url='https://github.com/greatbahram/shecan-cli/',
     packages=find_packages('src'),
     package_dir={'': 'src'},
+    package_data={'': ['LICENSE']},
     install_requires=INSTALL_DEPS,
     zip_safe=False,
     entry_points={
