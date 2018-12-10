@@ -1,30 +1,34 @@
 #!/usr/bin/env python3
-
+import os
+from codecs import open
 from sys import version_info
 
 from setuptools import find_packages, setup
 
-#from src.shecan import __version__
+here = os.path.abspath(os.path.dirname(__file__))
 
 assert version_info >= (3, 6, 1), 'shecan-cli requires Python >=3.6.1'
 
-
 INSTALL_DEPS = ('requests', 'bs4', 'lxml', 'tinydb', )
+
+about = {}
+with open(os.path.join(here, 'src', 'shecan', '__version__.py'), 'r', 'utf-8') as f:
+    exec(f.read(), about)
 
 
 setup(
-    name='shecan',
-    #version=__version__,
-    version='0.1.0',
-    description='Shecan CLI',
+    name=about['__title__'],
+    version=about['__version__'],
+    description=about['__description__'],
     long_description='\n\n'.join([open('README.md').read(), open('CHANGES.md').read()]),
     long_description_content_type='text/markdown',
-    author='GreatBahram',
-    author_email='aghaee.bahram@gmail.com',
-    license='Academic Free License, version 3',
-    url='https://github.com/greatbahram/shecan-cli/',
+    author=about['__author__'],
+    author_email=about['__author_email__'],
+    license=about['__license__'],
+    url=about['__url__'],
     packages=find_packages('src'),
     package_dir={'': 'src'},
+    include_package_data=True,
     package_data={'': ['LICENSE']},
     install_requires=INSTALL_DEPS,
     zip_safe=False,

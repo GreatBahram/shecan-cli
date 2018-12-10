@@ -20,8 +20,7 @@ def list_dns():
     print(formatstr.format('--', '-----'))
     with _dns_db():
         for dns in shecan.list_dns():
-            print(formatstr.format(
-                  dns.id, dns.ip))
+            print(formatstr.format(dns.id, dns.ip))
 
 
 def update_dns_servers():
@@ -104,9 +103,9 @@ def shecan_cli():
 
     shecan.log.setup_logging(args)
 
-    if args.op == 'list': 
+    if args.op == 'list':
         list_dns()
-    elif args.op == 'update': 
+    elif args.op == 'update':
         update_dns_servers()
     elif args.op == 'verify':
         verify_dns()
@@ -128,8 +127,8 @@ def shecan_cli():
                                 r_file.write(f'nameserver {item.ip}\n')
                     except OSError as e:
                         logger.error(
-                                f'Could not move resolv file ({resolv_file}) to '
-                                + f' {tmp_resolv_file}: {e}')
+                            f'Could not move resolv file ({resolv_file}) to '
+                            + f' {tmp_resolv_file}: {e}')
                 else:
                     logger.info(f"No resolv file to move ({resolv_file})")
             else:

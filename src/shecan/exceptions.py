@@ -11,4 +11,3 @@ class DNSException(Exception):
 
 class UninitializedDatabase(DNSException):
     """Call shecan.start_dns_db() before other functions."""
-
