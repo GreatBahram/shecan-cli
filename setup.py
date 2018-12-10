@@ -15,7 +15,7 @@ INSTALL_DEPS = ('requests', 'bs4', 'lxml', 'tinydb', )
 setup(
     name='shecan-cli',
     #version=__version__,
-    version='0.0.1',
+    version='0.1.0',
     description='Shecan CLI',
     long_description='\n\n'.join([open('README.md').read(), open('CHANGES.md').read()]),
     long_description_content_type='text/markdown',
