@@ -13,7 +13,7 @@ INSTALL_DEPS = ('requests', 'bs4', 'lxml', 'tinydb', )
 
 
 setup(
-    name='shecan-cli',
+    name='shecan',
     #version=__version__,
     version='0.1.0',
     description='Shecan CLI',
