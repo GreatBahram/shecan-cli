@@ -22,8 +22,8 @@ def get_ips(url: str = BASE_URL, selector: str = CSS_SELECTOR) -> Tuple[str]:
     with requests.get(url) as req:
         data = req.text
     soup = BeautifulSoup(data, 'lxml')
-    ips = soup.select_one(selector)
-    ips = tuple(ip for ip in ips.strings)
+    ips = soup.select(selector)
+    ips = tuple(item.string for item in ips)
     return ips
 
 
