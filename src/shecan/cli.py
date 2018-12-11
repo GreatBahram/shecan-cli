@@ -88,6 +88,12 @@ def shecan_cli():
     )
     set_.set_defaults(op="set")
 
+    # `restore` command
+    restore = subparsers.add_parser(
+        "restore", help="Restore old DNS configuration."
+    )
+    restore.set_defaults(op='restore')
+
     # `update` command
     update = subparsers.add_parser(
         "update",
@@ -133,6 +139,20 @@ def shecan_cli():
                     logger.info(f"No resolv file to move ({resolv_file})")
             else:
                 raise NotImplementedError('This feature has not been implemented yet.')
+    elif args.op == 'restore':
+        tmp_resolv_file = path.join(gettempdir(), 'resolv.conf')
+        resolv_file = path.join('/etc', 'resolv.conf')
+        if path.exists(tmp_resolv_file):
+            try:
+                shutil.move(tmp_resolv_file, resolv_file)
+                logger.debug(f'shecan moved {tmp_resolv_file} to {resolv_file}')
+            except OSError as e:
+                logger.error(
+                    f'Could not move temporary resolv file ({tmp_resolv_file}) to '
+                    + f'({resolv_file}): {e}')
+        else:
+            logger.info(f"Temporary file not found ({tmp_resolv_file}).")
+
 
 
 if __name__ == '__main__':
