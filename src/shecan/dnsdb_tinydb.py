@@ -4,7 +4,7 @@ from typing import List
 import tinydb
 
 
-class DNSDB_TinyDB():  # noqa : E801
+class DNSDB_TinyDB():
     """Wrapper class for TinyDB.  """
 
     def __init__(self, db_path: str) -> None:

@@ -28,7 +28,7 @@ def add(dns) -> int:
     return dns_id
 
 
-def get(dns_id):
+def get(dns_id: int) -> DNS:
     """ Return a DNS object with matching dns_id."""
     if not isinstance(dns_id, int):
         raise TypeError('dns_id must be an int.')
@@ -54,7 +54,7 @@ def list_dns() -> List[DNS]:
     return [DNS(**dns) for dns in _dnsdb.list_dns()]
 
 
-def update():
+def update() -> None:
     """ Retrieve a list of DNS name servers and store them into db."""
     ips = get_ips()
     delete_all()
@@ -73,7 +73,7 @@ def unique_id() -> str:
 _dnsdb = None
 
 
-def start_dns_db(db_path: str):
+def start_dns_db(db_path: str) -> None:
     """ Connect API functions to a db."""
     if not isinstance(db_path, str):
         raise TypeError('db_path must be a string.')
@@ -81,7 +81,7 @@ def start_dns_db(db_path: str):
     _dnsdb = dnsdb_tinydb.start_dns_db(db_path)
 
 
-def stop_dns_db():
+def stop_dns_db() -> None:
     """ Disconnect API functions from db."""
     global _dnsdb
     _dnsdb.stop_dns_db()
