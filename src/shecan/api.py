@@ -18,6 +18,12 @@ class DNS(NamedTuple):
     id: int = None
 
 
+# Resolver element Types: [type: str, ip: str]
+class Resolver(NamedTuple):
+    type : str = None
+    ip: str = None
+
+
 def add(dns) -> int:
     """ Add a DNS (a DNS object) to the dns database."""
     if not isinstance(dns, DNS):
@@ -52,6 +58,17 @@ def list_dns() -> List[DNS]:
     if _dnsdb is None:
         raise UninitializedDatabase()
     return [DNS(**dns) for dns in _dnsdb.list_dns()]
+
+
+def current_dns() -> List[Resolver]:
+    """ List current dns servers in /etc/resolv.conf."""
+    resolv_list = []
+    with open('/etc/resolv.conf', mode='rt') as resovl_file:
+        for line in resovl_file:
+            if line.startswith('#'):
+                continue
+            resolv_list.append(Resolver(*line.split()[:2]))
+    return resolv_list
 
 
 def update() -> None:

@@ -6,6 +6,8 @@ import sys
 from os import path
 from tempfile import gettempdir
 
+from tabulate import tabulate
+
 import shecan.log
 from shecan import config
 from shecan.utils import _dns_db
@@ -35,6 +37,14 @@ def verify_dns():
             print('Verified ✓')
         else:
             print('Unverified X')
+
+
+def show_current_dns():
+    """ List current dns servers in /etc/resolv.conf."""
+    lists= []
+    resolvers = shecan.current_dns()
+    print(tabulate(resolvers, headers=['Type', 'IP']))
+
 
 def shecan_cli():
     parser = argparse.ArgumentParser(description="CLI for shecan.ir website.")
@@ -101,6 +111,13 @@ def shecan_cli():
     )
     update.set_defaults(op="update")
 
+    # `show` command
+    show = subparsers.add_parser(
+        "show",
+        help="Show your current dns servers in '/etc/resolv.conf'.",
+    )
+    show.set_defaults(op="show")
+
     args = parser.parse_args()
 
     if len(sys.argv) == 1:
@@ -152,7 +169,8 @@ def shecan_cli():
                     + f'({resolv_file}): {e}')
         else:
             logger.info(f"Temporary file not found ({tmp_resolv_file}).")
-
+    elif args.op == 'show':
+        show_current_dns()
 
 
 if __name__ == '__main__':
