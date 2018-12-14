@@ -9,7 +9,13 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 assert version_info >= (3, 6, 1), 'shecan-cli requires Python >=3.6.1'
 
-INSTALL_DEPS = ('requests', 'bs4', 'lxml', 'tinydb', )
+INSTALL_DEPS = [
+    'requests',
+    'bs4',
+    'lxml',
+    'tinydb',
+    'tabulate',
+    ]
 
 about = {}
 with open(os.path.join(here, 'src', 'shecan', '__version__.py'), 'r', 'utf-8') as f:
