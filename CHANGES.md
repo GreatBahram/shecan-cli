@@ -1,3 +1,9 @@
+## 0.2.2 (2018-12-14)
+
+- Add `show` subcommand to print current DNS configuration.
+- Make output of `verify` function colorful.
+- Tabulate output of `list` and `show` commmand.
+
 ## 0.2.1 (2018-12-11)
 
 - Add `restore` subcommand to restore previous `resolv` file.
