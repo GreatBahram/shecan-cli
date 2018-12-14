@@ -14,36 +14,40 @@ from shecan.utils import _dns_db
 
 logger = logging.getLogger(__name__)
 
+# colors
+GREEN = '\033[92m'
+RED = '\033[91m'
+RESET = '\033[31m'
 
-def list_dns():
+
+def list_dns() -> None:
     """ List dns servers in db."""
-    formatstr = "{: >4} {: >10}"
-    print(formatstr.format('ID', 'IP'))
-    print(formatstr.format('--', '-----'))
     with _dns_db():
-        for dns in shecan.list_dns():
-            print(formatstr.format(dns.id, dns.ip))
+        dns_servers = shecan.list_dns()
+    dns_servers = [(dns.id, dns.ip) for dns in dns_servers]
+    print(tabulate(dns_servers, headers=['ID', 'IP'], stralign='center'))
 
 
-def update_dns_servers():
+def update_dns_servers() -> None:
     """ Get list of Shecan dns name servers and store them into database."""
     with _dns_db():
         shecan.update()
 
-def verify_dns():
+
+def verify_dns() -> None:
     result = socket.gethostbyname('check.shecan.ir')
     with _dns_db():
         if result in [dns.ip for dns in shecan.list_dns()]:
-            print('Verified ✓')
+            print('Verified ' + GREEN + '✓' + RESET)
         else:
-            print('Unverified X')
+            print('Unverified ' + RED + 'X' + RESET)
 
 
-def show_current_dns():
+def show_current_dns() -> None:
     """ List current dns servers in /etc/resolv.conf."""
     lists= []
     resolvers = shecan.current_dns()
-    print(tabulate(resolvers, headers=['Type', 'IP']))
+    print(tabulate(resolvers, headers=['Type', 'IP'], stralign='center'))
 
 
 def shecan_cli():
