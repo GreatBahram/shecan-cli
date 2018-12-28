@@ -1,5 +1,12 @@
 # Shecan CLI
 
+[![image](https://img.shields.io/pypi/v/shecan.svg)](https://pypi.org/project/shecan/)
+[![image](https://img.shields.io/pypi/l/shecan.svg)](https://pypi.org/project/shecan/)
+[![image](https://img.shields.io/pypi/pyversions/shecan.svg)](https://pypi.org/project/shecan/)
+[![image](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/GreatBahram)
+
+------------------------------------------------------------------------
+
 The Shecan CLI is used to configure your DNS name server based on Shecan website from the command line.
 
 For more about Shecan see https://shecan.ir/
