@@ -34,4 +34,5 @@ $ shecan/bin/pip install shecan
 * Run ``shecan verify`` It will check your DNS configuration and make sure that shecan works fine for you.
 * Run ``shecan restore`` It will restore your previous DNS configuration.
 * Run ``shecan show`` It will print your current DNS configuration.
+* Run ``shecan --version`` It will show shecan's version.
 * Run ``shecan --help`` It will show full command-line options and subcommands.
