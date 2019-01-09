@@ -2,12 +2,12 @@
 
 from collections import namedtuple
 
-import os
+from pathlib import Path
 
 DNSConfig = namedtuple('DNSConfig', ['db_path'])
 
 
 def get_config():
     """Return DNSConfig object."""
-    dns_db_path = os.path.expanduser('~/.dns_db.json')
-    return DNSConfig(dns_db_path)
+    dns_db_path = Path('~/.dns_db.json').expanduser()
+    return DNSConfig(str(dns_db_path))

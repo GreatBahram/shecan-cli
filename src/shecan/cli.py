@@ -3,14 +3,13 @@ import logging
 import shutil
 import socket
 import sys
-from os import path
+from pathlib import Path
 from tempfile import gettempdir
-
-from tabulate import tabulate
 
 import shecan.log
 from shecan import config
 from shecan.utils import _dns_db
+from tabulate import tabulate
 
 logger = logging.getLogger(__name__)
 
@@ -146,9 +145,9 @@ def shecan_cli():
             else:
                 dns = shecan.list_dns()
             if args.mode == 'temporary':
-                resolv_file = path.join('/etc', 'resolv.conf')
-                tmp_resolv_file = path.join(gettempdir(), 'resolv.conf')
-                if path.exists(resolv_file):
+                resolv_file = Path('/etc', 'resolv.conf')
+                tmp_resolv_file = Path(gettempdir()).joinpath('resolv.conf')
+                if resolv_file.exists():
                     try:
                         shutil.move(resolv_file, tmp_resolv_file)
                         logger.debug(f'shecan moved {resolv_file} to {tmp_resolv_file}')
@@ -164,9 +163,9 @@ def shecan_cli():
             else:
                 raise NotImplementedError('This feature has not been implemented yet.')
     elif args.op == 'restore':
-        tmp_resolv_file = path.join(gettempdir(), 'resolv.conf')
-        resolv_file = path.join('/etc', 'resolv.conf')
-        if path.exists(tmp_resolv_file):
+        tmp_resolv_file = Path(gettempdir(), 'resolv.conf')
+        resolv_file = Path('/etc', 'resolv.conf')
+        if tmp_resolv_file.exists():
             try:
                 shutil.move(tmp_resolv_file, resolv_file)
                 logger.debug(f'shecan moved {tmp_resolv_file} to {resolv_file}')
