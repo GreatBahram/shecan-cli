@@ -1,3 +1,7 @@
+## 0.2.4 (2019-01-??)
+
+- Replace `os.path` with `pathlib` module.
+
 ## 0.2.3 (2019-01-08)
 
 - Add `--version` option.
