@@ -1,6 +1,7 @@
 ## 0.2.4 (2019-01-??)
 
 - Replace `os.path` with `pathlib` module.
+- Remove `__version__` which was awkward, replace it via `setup.cfg`.
 
 ## 0.2.3 (2019-01-08)
 
