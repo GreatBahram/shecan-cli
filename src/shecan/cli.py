@@ -58,7 +58,7 @@ def shecan_cli():
         help="Turn on extra logging (DEBUG level)",
     )
     parser.add_argument(
-        '--version', action="version", version=f"%(prog)s {shecan.__version__}"
+        '--version', action="version", version=f"%(prog)s {shecan.version}"
     )
     subparsers = parser.add_subparsers()
 
