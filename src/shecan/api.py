@@ -4,7 +4,6 @@ shecan.api
 This module implements Main API for shecan-cli project..
 """
 
-from collections import namedtuple
 from typing import List, NamedTuple
 
 from shecan import dnsdb_tinydb

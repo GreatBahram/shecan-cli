@@ -7,7 +7,6 @@ from pathlib import Path
 from tempfile import gettempdir
 
 import shecan.log
-from shecan import config
 from shecan.utils import _dns_db
 from tabulate import tabulate
 
@@ -44,7 +43,6 @@ def verify_dns() -> None:
 
 def show_current_dns() -> None:
     """ List current dns servers in /etc/resolv.conf."""
-    lists = []
     resolvers = shecan.current_dns()
     print(tabulate(resolvers, headers=["Type", "IP"], stralign="center"))
 
