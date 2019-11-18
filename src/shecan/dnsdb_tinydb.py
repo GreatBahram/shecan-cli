@@ -4,7 +4,7 @@ from typing import List
 import tinydb
 
 
-class DNSDB_TinyDB():
+class DNSDB_TinyDB:
     """Wrapper class for TinyDB.  """
 
     def __init__(self, db_path: str) -> None:
@@ -14,7 +14,7 @@ class DNSDB_TinyDB():
     def add(self, dns: dict) -> int:
         """Add a dns dict to db."""
         dns_id = self._db.insert(dns)
-        dns['id'] = dns_id
+        dns["id"] = dns_id
         self._db.update(dns, doc_ids=[dns_id])
         return dns_id
 
