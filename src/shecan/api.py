@@ -20,14 +20,14 @@ class DNS(NamedTuple):
 
 # Resolver element Types: [type: str, ip: str]
 class Resolver(NamedTuple):
-    type : str = None
+    type: str = None
     ip: str = None
 
 
 def add(dns) -> int:
     """ Add a DNS (a DNS object) to the dns database."""
     if not isinstance(dns, DNS):
-        raise TypeError('dns must be DNS object.')
+        raise TypeError("dns must be DNS object.")
     if _dnsdb is None:
         raise UninitializedDatabase()
     dns_id = _dnsdb.add(dns._asdict())
@@ -37,13 +37,13 @@ def add(dns) -> int:
 def get(dns_id: int) -> DNS:
     """ Return a DNS object with matching dns_id."""
     if not isinstance(dns_id, int):
-        raise TypeError('dns_id must be an int.')
+        raise TypeError("dns_id must be an int.")
     if _dnsdb is None:
         raise UninitializedDatabase()
     dns_dict = _dnsdb.get(dns_id)
     if dns_dict:
         return DNS(**dns_dict)
-    raise KeyError('DNS ID does not exist.')
+    raise KeyError("DNS ID does not exist.")
 
 
 def delete_all() -> None:
@@ -63,9 +63,9 @@ def list_dns() -> List[DNS]:
 def current_dns() -> List[Resolver]:
     """ List current dns servers in /etc/resolv.conf."""
     resolv_list = []
-    with open('/etc/resolv.conf', mode='rt') as resovl_file:
+    with open("/etc/resolv.conf", mode="rt") as resovl_file:
         for line in resovl_file:
-            if line.startswith('#'):
+            if line.startswith("#"):
                 continue
             resolv_list.append(Resolver(*line.split()[:2]))
     return resolv_list
@@ -80,6 +80,7 @@ def update() -> None:
         dns = DNS(ip, uniq_id)
         add(dns)
 
+
 def unique_id() -> str:
     """ Return an integer that does not exist in the db."""
     if _dnsdb is None:
@@ -93,7 +94,7 @@ _dnsdb = None
 def start_dns_db(db_path: str) -> None:
     """ Connect API functions to a db."""
     if not isinstance(db_path, str):
-        raise TypeError('db_path must be a string.')
+        raise TypeError("db_path must be a string.")
     global _dnsdb
     _dnsdb = dnsdb_tinydb.start_dns_db(db_path)
 
