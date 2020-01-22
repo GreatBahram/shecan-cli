@@ -7,7 +7,8 @@ This module implements Main API for shecan-cli project..
 from typing import List, NamedTuple
 
 from shecan import dnsdb_tinydb
-from shecan.utils import get_ips
+from shecan import ShecanConfig
+from shecan.utils import get_shecan_ips
 from shecan.exceptions import UninitializedDatabase
 
 
@@ -27,10 +28,8 @@ def add(dns) -> int:
     """ Add a DNS (a DNS object) to the dns database."""
     if not isinstance(dns, DNS):
         raise TypeError("dns must be DNS object.")
-    if _dnsdb is None:
-        raise UninitializedDatabase()
-    dns_id = _dnsdb.add(dns._asdict())
-    return dns_id
+    with ShecanConfig() as config:
+        config.add(dns._asdict())
 
 
 def get(dns_id: int) -> DNS:
@@ -46,14 +45,13 @@ def get(dns_id: int) -> DNS:
 
 
 def delete_all() -> None:
-    """ Remove all dns record from db."""
-    if _dnsdb is None:
-        raise UninitializedDatabase()
-    _dnsdb.delete_all()
+    """Remove all the DNS records from the configuration file."""
+    conf = ShecanConfig()
+    conf.delete()
 
 
 def list_dns() -> List[DNS]:
-    """ Return a list of DNS objects."""
+    """Return a list of DNS objects."""
     if _dnsdb is None:
         raise UninitializedDatabase()
     return [DNS(**dns) for dns in _dnsdb.list_dns()]
@@ -74,32 +72,7 @@ def update() -> None:
     """ Retrieve a list of DNS name servers and store them into db."""
     ips = get_ips()
     delete_all()
-    for ip in ips:
+    for index, ip in enumerate(ips, start=1):
         uniq_id = unique_id()
-        dns = DNS(ip, uniq_id)
+        dns = DNS(ip, f"dns_{index}")
         add(dns)
-
-
-def unique_id() -> str:
-    """ Return an integer that does not exist in the db."""
-    if _dnsdb is None:
-        raise UninitializedDatabase()
-    return _dnsdb.unique_id()
-
-
-_dnsdb = None
-
-
-def start_dns_db(db_path: str) -> None:
-    """ Connect API functions to a db."""
-    if not isinstance(db_path, str):
-        raise TypeError("db_path must be a string.")
-    global _dnsdb
-    _dnsdb = dnsdb_tinydb.start_dns_db(db_path)
-
-
-def stop_dns_db() -> None:
-    """ Disconnect API functions from db."""
-    global _dnsdb
-    _dnsdb.stop_dns_db()
-    _dnsdb = None
