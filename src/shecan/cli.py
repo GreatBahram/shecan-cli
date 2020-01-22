@@ -6,9 +6,10 @@ import sys
 from pathlib import Path
 from tempfile import gettempdir
 
-import shecan.log
-from shecan.utils import _dns_db
+#from shecan.utils import _dns_db
 from tabulate import tabulate
+
+import shecan.log
 
 logger = logging.getLogger(__name__)
 

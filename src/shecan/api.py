@@ -6,8 +6,7 @@ This module implements Main API for shecan-cli project..
 
 from typing import List, NamedTuple
 
-from shecan import dnsdb_tinydb
-from shecan import ShecanConfig
+from shecan.conf import ShecanConfig
 from shecan.utils import get_shecan_ips
 from shecan.exceptions import UninitializedDatabase
 
@@ -30,6 +29,9 @@ def add(dns) -> int:
         raise TypeError("dns must be DNS object.")
     with ShecanConfig() as config:
         config.add(dns._asdict())
+
+
+_dnsdb = None
 
 
 def get(dns_id: int) -> DNS:
