@@ -6,9 +6,10 @@ import sys
 from pathlib import Path
 from tempfile import gettempdir
 
-import shecan
+from colorama import Fore, Style
 from tabulate import tabulate
 
+import shecan
 import shecan.log
 
 logger = logging.getLogger(__name__)
@@ -67,9 +68,9 @@ def verify_dns() -> None:
     result = socket.gethostbyname("check.shecan.ir")
     shecan_dns_nameservers = shecan.list_dns()
     if result in shecan_dns_nameservers:
-        print("Verified " + GREEN + "✓" + RESET)
+        print(f"Verified {Fore.GREEN}✓ {Style.RESET_ALL}")
     else:
-        print("Unverified " + RED + "X" + RESET)
+        print(f"Unverified {Fore.RED}X {Style.RESET_ALL}")
 
 
 def show_current_dns() -> None:
