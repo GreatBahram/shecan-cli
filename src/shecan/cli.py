@@ -27,7 +27,7 @@ def list_dns() -> None:
     print(tabulate(dns_servers, headers=["ID", "IP"], stralign="center"))
 
 
-def update_resolve_file(content):
+def update_resolv_file(content):
     resolv_file = Path("/etc", "resolv.conf")
     tmp_resolv_file = Path(gettempdir()).joinpath("resolv.conf")
     if resolv_file.exists():
@@ -157,7 +157,7 @@ def shecan_cli():
             sys.exit(2)
 
         if args.mode == "temporary":
-            update_resolve_file(content)
+            update_resolv_file(content)
         else:
             raise NotImplementedError("This feature has not been implemented yet.")
 

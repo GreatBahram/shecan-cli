@@ -4,6 +4,7 @@ shecan.api
 This module implements Main API for shecan-cli project..
 """
 
+import sys
 from typing import List, NamedTuple
 
 from shecan.db import ShecanConfig
@@ -38,11 +39,12 @@ def list_dns():
 def current_dns() -> List[Resolver]:
     """ List current dns servers in /etc/resolv.conf."""
     resolv_list = []
-    with open("/etc/resolv.conf", mode="rt") as resovl_file:
-        for line in resovl_file:
-            if line.startswith("#"):
-                continue
-            resolv_list.append(Resolver(*line.split()[:2]))
+    if sys.platform == 'linux':
+        with open("/etc/resolv.conf", mode="rt") as resovl_file:
+            for line in resovl_file:
+                if line.startswith("#"):
+                    continue
+                resolv_list.append(Resolver(*line.split()[:2]))
     return resolv_list
 
 
