@@ -11,6 +11,10 @@ The Shecan CLI is used to configure your DNS name server based on Shecan website
 
 For more about Shecan see https://shecan.ir/
 
+## Introduction
+
+![How to use shecan?](./shecan.svg)
+
 ## Installation
 
 The following instructions will place the shecan executable in a
