@@ -17,13 +17,14 @@ class ShecanConfig:
 
     def _initialize(self):
         """Initialize the shecan config file"""
-        if "shecan" not in self._parser:
-            self._parser.add_section(self._name)
+        if not Path(self.config_file).exists():
+            with open(self.config_file, mode="wt") as fp:
+                fp.write(self._name)
 
     def _read_config(self):
         """Read the configuration from a file."""
-        self._parser.read(self.config_file)
         self._initialize()
+        self._parser.read(self.config_file)
 
     def __enter__(self):
         self._read_config()
