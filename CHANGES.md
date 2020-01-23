@@ -1,3 +1,7 @@
+## 0.3.2 (2020-01-23)
+
+- Bugfix (Showing debug message when no dns nameservers found.)
+
 ## 0.3.1 (2020-01-23)
 
 - Bugfix (Prevent showing error when configfile doesn't exist.)
