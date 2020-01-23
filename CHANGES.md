@@ -1,3 +1,7 @@
+## 0.3.1 (2020-01-23)
+
+- Bugfix (Prevent showing error when configfile doesn't exist.)
+
 ## 0.3.0 (2020-01-23)
 
 - Get rid of tinydb dependency.
