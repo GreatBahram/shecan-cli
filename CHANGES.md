@@ -1,3 +1,8 @@
+## 0.3.0 (2020-01-23)
+
+- Get rid of tinydb dependency.
+- Add pre-commit file and bumpversion to make it easier to maintaine.
+
 ## 0.2.4 (2019-01-??)
 
 - Replace `os.path` with `pathlib` module.
