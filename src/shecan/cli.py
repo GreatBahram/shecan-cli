@@ -35,8 +35,8 @@ def update_resolve_file(content):
             shutil.move(resolv_file, tmp_resolv_file)
             logger.debug(f"shecan moved {resolv_file} to {tmp_resolv_file}")
             with open(resolv_file, mode="wt") as r_file:
-                for item in content:
-                    r_file.write(content)
+                for line in content:
+                    r_file.write(line + "\n")
         except OSError as e:
             logger.error(
                 f"Could not move resolv file ({resolv_file}) to "
@@ -147,7 +147,7 @@ def shecan_cli():
     elif args.op == "verify":
         verify_dns()
     elif args.op == "set":
-        content = ["nameserver {dns_ip}" for dns_ip in shecan.list_dns()]
+        content = [f"nameserver {dns_ip}" for dns_ip in shecan.list_dns()]
         if not content:
             logger.error("Could find Shecan DNS ip addresses in the config file.")
             sys.exit(1)
