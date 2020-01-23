@@ -39,7 +39,7 @@ def list_dns():
 def current_dns() -> List[Resolver]:
     """ List current dns servers in /etc/resolv.conf."""
     resolv_list = []
-    if sys.platform == 'linux':
+    if sys.platform == "linux":
         with open("/etc/resolv.conf", mode="rt") as resovl_file:
             for line in resovl_file:
                 if line.startswith("#"):

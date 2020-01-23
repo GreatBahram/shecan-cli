@@ -7,7 +7,6 @@ from typing import Tuple
 
 import requests
 
-import shecan
 from bs4 import BeautifulSoup
 
 BASE_URL = "https://shecan.ir/"

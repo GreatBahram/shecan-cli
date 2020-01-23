@@ -7,7 +7,6 @@ from pathlib import Path
 from tempfile import gettempdir
 
 import shecan
-from shecan import ShecanConfig
 from tabulate import tabulate
 
 import shecan.log
