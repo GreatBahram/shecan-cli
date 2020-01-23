@@ -1,3 +1,7 @@
+## 0.3.3 (2020-01-23)
+
+- Use `colorama` for printing colorful text
+
 ## 0.3.2 (2020-01-23)
 
 - Bugfix (Showing debug message when no dns nameservers found.)
