@@ -19,7 +19,7 @@ class ShecanConfig:
         """Initialize the shecan config file"""
         if not Path(self.config_file).exists():
             with open(self.config_file, mode="wt") as fp:
-                fp.write(self._name)
+                fp.write(f"[{self._name}]")
 
     def _read_config(self):
         """Read the configuration from a file."""
@@ -41,9 +41,10 @@ class ShecanConfig:
     def list_dns(self):
         """Return list of Shecan's dns servers."""
         try:
-            return self._parser[self._name]["dns-ips"].split(",")
+            ips = self._parser[self._name]["dns-ips"].split(",")
         except KeyError:
-            raise KeyError("Cannot find Shecan name servers.") from None
+            ips = []
+        return ips
 
     def delete(self,) -> None:
         """Remove all Shecan's dns servers from configuration."""

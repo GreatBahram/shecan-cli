@@ -22,6 +22,8 @@ RESET = "\033[31m"
 def list_dns() -> None:
     """List dns servers in db."""
     dns_servers = shecan.list_dns()
+    if not dns_servers:
+        logger.debug("No DNS nameservers found! Update the shecan, please.")
     dns_servers = [(index, dns_ip) for index, dns_ip in enumerate(dns_servers, start=1)]
     print(tabulate(dns_servers, headers=["ID", "IP"], stralign="center"))
 
