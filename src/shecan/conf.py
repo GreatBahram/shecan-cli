@@ -1,11 +1,11 @@
-""" Module containing classes to access the shecan configuration."""
+"""Module containing classes to access the shecan configuration."""
 
 from configparser import ConfigParser
 from pathlib import Path
 
 
 class ShecanConfig:
-    """Wrapper class Shecan configuraton."""
+    """Wrapper class for Shecan configuraton."""
 
     def __init__(self, config_file: str) -> None:
         self.config_file = config_file
@@ -19,7 +19,7 @@ class ShecanConfig:
             self._parser.add_section(self._name)
 
     def _read_config(self):
-        """ Read the configuration from a file."""
+        """Read the configuration from a file."""
         self._parser.read(self.config_file)
 
     def __enter__(self):
@@ -31,15 +31,17 @@ class ShecanConfig:
             self._parser.write(fp)
 
     def update(self, ips: list):
-        pass
+        """Store all Shecan's ip addresses."""
+        self._parser[self._name]["dns-ips"] = ",".join(ips)
 
     def list_dns(self):
         """Return list of Shecan's dns servers."""
-        return [value for _, value in self._parser.items(self._name)]
+        return self._parser[self._name]["dns-ips"].split(",")
 
     def delete(self,) -> None:
-        """Remove all shecan's dns servers from configuratio."""
+        """Remove all Shecan's dns servers from configuration."""
         self._parser.remove_section(self._name)
+        self._initialize()
 
     def remove(self,) -> None:
         """Remove the configuration file."""
