@@ -160,6 +160,7 @@ def shecan_cli():
             update_resolve_file(content)
         else:
             raise NotImplementedError("This feature has not been implemented yet.")
+
     elif args.op == "restore":
         restore_resolv_file()
     elif args.op == "show":

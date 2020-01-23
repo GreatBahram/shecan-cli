@@ -39,7 +39,10 @@ class ShecanConfig:
 
     def list_dns(self):
         """Return list of Shecan's dns servers."""
-        return self._parser[self._name]["dns-ips"].split(",")
+        try:
+            return self._parser[self._name]["dns-ips"].split(",")
+        except KeyError:
+            raise KeyError('Cannot find Shecan name servers.') from None
 
     def delete(self,) -> None:
         """Remove all Shecan's dns servers from configuration."""
