@@ -6,7 +6,8 @@ import sys
 from pathlib import Path
 from tempfile import gettempdir
 
-#from shecan.utils import _dns_db
+import shecan
+from shecan import ShecanConfig
 from tabulate import tabulate
 
 import shecan.log
@@ -20,26 +21,54 @@ RESET = "\033[31m"
 
 
 def list_dns() -> None:
-    """ List dns servers in db."""
-    with _dns_db():
-        dns_servers = shecan.list_dns()
-    dns_servers = [(dns.id, dns.ip) for dns in dns_servers]
+    """List dns servers in db."""
+    dns_servers = shecan.list_dns()
+    dns_servers = [(index, dns_ip) for index, dns_ip in enumerate(dns_servers, start=1)]
     print(tabulate(dns_servers, headers=["ID", "IP"], stralign="center"))
 
 
-def update_dns_servers() -> None:
-    """ Get list of Shecan dns name servers and store them into database."""
-    with _dns_db():
-        shecan.update()
+def update_resolve_file(content):
+    resolv_file = Path("/etc", "resolv.conf")
+    tmp_resolv_file = Path(gettempdir()).joinpath("resolv.conf")
+    if resolv_file.exists():
+        try:
+            shutil.move(resolv_file, tmp_resolv_file)
+            logger.debug(f"shecan moved {resolv_file} to {tmp_resolv_file}")
+            with open(resolv_file, mode="wt") as r_file:
+                for item in content:
+                    r_file.write(content)
+        except OSError as e:
+            logger.error(
+                f"Could not move resolv file ({resolv_file}) to "
+                + f" {tmp_resolv_file}: {e}"
+            )
+    else:
+        logger.info(f"No resolv file to move ({resolv_file})")
+
+
+def restore_resolv_file():
+    tmp_resolv_file = Path(gettempdir(), "resolv.conf")
+    resolv_file = Path("/etc", "resolv.conf")
+    if tmp_resolv_file.exists():
+        try:
+            shutil.move(tmp_resolv_file, resolv_file)
+            logger.debug(f"shecan moved {tmp_resolv_file} to {resolv_file}")
+        except OSError as e:
+            logger.error(
+                f"Could not move temporary resolv file ({tmp_resolv_file}) to "
+                + f"({resolv_file}): {e}"
+            )
+    else:
+        logger.info(f"Temporary file not found ('{tmp_resolv_file}').")
 
 
 def verify_dns() -> None:
     result = socket.gethostbyname("check.shecan.ir")
-    with _dns_db():
-        if result in [dns.ip for dns in shecan.list_dns()]:
-            print("Verified " + GREEN + "✓" + RESET)
-        else:
-            print("Unverified " + RED + "X" + RESET)
+    shecan_dns_nameservers = shecan.list_dns()
+    if result in shecan_dns_nameservers:
+        print("Verified " + GREEN + "✓" + RESET)
+    else:
+        print("Unverified " + RED + "X" + RESET)
 
 
 def show_current_dns() -> None:
@@ -71,13 +100,6 @@ def shecan_cli():
 
     # `set` command
     set_ = subparsers.add_parser("set", help="Set DNS configuration.")
-    set_.add_argument(
-        "--id",
-        action="store",
-        type=int,
-        default=False,
-        help="Which dns server should be set.",
-    )
     group = set_.add_mutually_exclusive_group(required=True)
     group.add_argument(
         "--temporary",
@@ -121,48 +143,25 @@ def shecan_cli():
     if args.op == "list":
         list_dns()
     elif args.op == "update":
-        update_dns_servers()
+        shecan.update()
     elif args.op == "verify":
         verify_dns()
     elif args.op == "set":
-        with _dns_db():
-            if args.id:
-                dns = [shecan.get(args.id)]
-            else:
-                dns = shecan.list_dns()
-            if args.mode == "temporary":
-                resolv_file = Path("/etc", "resolv.conf")
-                tmp_resolv_file = Path(gettempdir()).joinpath("resolv.conf")
-                if resolv_file.exists():
-                    try:
-                        shutil.move(resolv_file, tmp_resolv_file)
-                        logger.debug(f"shecan moved {resolv_file} to {tmp_resolv_file}")
-                        with open(resolv_file, mode="wt") as r_file:
-                            for item in dns:
-                                r_file.write(f"nameserver {item.ip}\n")
-                    except OSError as e:
-                        logger.error(
-                            f"Could not move resolv file ({resolv_file}) to "
-                            + f" {tmp_resolv_file}: {e}"
-                        )
-                else:
-                    logger.info(f"No resolv file to move ({resolv_file})")
-            else:
-                raise NotImplementedError("This feature has not been implemented yet.")
-    elif args.op == "restore":
-        tmp_resolv_file = Path(gettempdir(), "resolv.conf")
-        resolv_file = Path("/etc", "resolv.conf")
-        if tmp_resolv_file.exists():
-            try:
-                shutil.move(tmp_resolv_file, resolv_file)
-                logger.debug(f"shecan moved {tmp_resolv_file} to {resolv_file}")
-            except OSError as e:
-                logger.error(
-                    f"Could not move temporary resolv file ({tmp_resolv_file}) to "
-                    + f"({resolv_file}): {e}"
-                )
+        content = ["nameserver {dns_ip}" for dns_ip in shecan.list_dns()]
+        if not content:
+            logger.error("Could find Shecan DNS ip addresses in the config file.")
+            sys.exit(1)
+
+        if sys.platform != "linux":
+            logger.error("Currently only Linux operating system are supported.")
+            sys.exit(2)
+
+        if args.mode == "temporary":
+            update_resolve_file(content)
         else:
-            logger.info(f"Temporary file not found ({tmp_resolv_file}).")
+            raise NotImplementedError("This feature has not been implemented yet.")
+    elif args.op == "restore":
+        restore_resolv_file()
     elif args.op == "show":
         show_current_dns()
 

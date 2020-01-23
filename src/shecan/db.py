@@ -4,14 +4,16 @@ from configparser import ConfigParser
 from pathlib import Path
 
 
+DB_PATH = Path("~/.dns_db.cfg").expanduser()
+
+
 class ShecanConfig:
     """Wrapper class for Shecan configuraton."""
 
-    def __init__(self, config_file: str) -> None:
+    def __init__(self, config_file: str = DB_PATH) -> None:
         self.config_file = config_file
         self._parser = ConfigParser()
         self._name = "shecan"
-        self._initialize()
 
     def _initialize(self):
         """Initialize the shecan config file"""
@@ -21,6 +23,7 @@ class ShecanConfig:
     def _read_config(self):
         """Read the configuration from a file."""
         self._parser.read(self.config_file)
+        self._initialize()
 
     def __enter__(self):
         self._read_config()

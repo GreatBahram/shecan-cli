@@ -3,7 +3,6 @@ shecan.utils
 ~~~~~~~~~~~~~~
 This module provides utility functions that are used within shecan.
 """
-from contextlib import contextmanager
 from typing import Tuple
 
 import requests
@@ -21,5 +20,4 @@ def get_shecan_ips(url: str = BASE_URL, selector: str = CSS_SELECTOR) -> Tuple[s
         data = req.text
     soup = BeautifulSoup(data, "lxml")
     ips = soup.select(selector)
-    ips = tuple(item.string for item in ips)
-    return ips
+    return tuple(item.string for item in ips)

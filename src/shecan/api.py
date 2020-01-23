@@ -6,15 +6,8 @@ This module implements Main API for shecan-cli project..
 
 from typing import List, NamedTuple
 
-from shecan.conf import ShecanConfig
+from shecan.db import ShecanConfig
 from shecan.utils import get_shecan_ips
-from shecan.exceptions import UninitializedDatabase
-
-
-# DNS element Types: [ip: str, id: int]
-class DNS(NamedTuple):
-    ip: str = None
-    id: int = None
 
 
 # Resolver element Types: [type: str, ip: str]
@@ -23,40 +16,23 @@ class Resolver(NamedTuple):
     ip: str = None
 
 
-def add(dns) -> int:
-    """ Add a DNS (a DNS object) to the dns database."""
-    if not isinstance(dns, DNS):
-        raise TypeError("dns must be DNS object.")
+def add(ips) -> int:
+    """Add a DNS (a DNS object) to the dns database."""
     with ShecanConfig() as config:
-        config.add(dns._asdict())
+        config.update(ips)
 
 
-_dnsdb = None
-
-
-def get(dns_id: int) -> DNS:
-    """ Return a DNS object with matching dns_id."""
-    if not isinstance(dns_id, int):
-        raise TypeError("dns_id must be an int.")
-    if _dnsdb is None:
-        raise UninitializedDatabase()
-    dns_dict = _dnsdb.get(dns_id)
-    if dns_dict:
-        return DNS(**dns_dict)
-    raise KeyError("DNS ID does not exist.")
-
-
-def delete_all() -> None:
+def reset() -> None:
     """Remove all the DNS records from the configuration file."""
     conf = ShecanConfig()
     conf.delete()
 
 
-def list_dns() -> List[DNS]:
+def list_dns():
     """Return a list of DNS objects."""
-    if _dnsdb is None:
-        raise UninitializedDatabase()
-    return [DNS(**dns) for dns in _dnsdb.list_dns()]
+    with ShecanConfig() as conf:
+        ips = conf.list_dns()
+    return ips
 
 
 def current_dns() -> List[Resolver]:
@@ -71,10 +47,8 @@ def current_dns() -> List[Resolver]:
 
 
 def update() -> None:
-    """ Retrieve a list of DNS name servers and store them into db."""
-    ips = get_ips()
-    delete_all()
-    for index, ip in enumerate(ips, start=1):
-        uniq_id = unique_id()
-        dns = DNS(ip, f"dns_{index}")
-        add(dns)
+    """Retrieve a list of DNS name servers and store them into db."""
+    ips = get_shecan_ips()
+    if ips:
+        reset()
+        add(ips)
