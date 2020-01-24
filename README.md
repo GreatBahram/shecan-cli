@@ -11,6 +11,8 @@ The Shecan CLI is used to configure your DNS name server based on Shecan website
 
 For more about Shecan see https://shecan.ir/
 
+* I wrote this script, because I wanted to configure a couple of linux servers to be able to use docker hub, which are blocked in Iran. And I wanted to get a literally an agent to do it.
+
 ## Introduction
 
 ![How to use shecan?](./shecan.svg)
