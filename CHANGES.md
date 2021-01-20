@@ -1,3 +1,8 @@
+## 0.3.4 (2021-01-20)
+
+- Copy current resolv file instead of moving it: Moving resolv file is not allowed in docker env.
+- Improve error handling
+
 ## 0.3.3 (2020-01-23)
 
 - Use `colorama` for printing colorful text
