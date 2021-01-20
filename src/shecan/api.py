@@ -42,7 +42,8 @@ def current_dns() -> List[Resolver]:
     if sys.platform == "linux":
         with open("/etc/resolv.conf", mode="rt") as resovl_file:
             for line in resovl_file:
-                if line.startswith("#"):
+                line = line.strip()
+                if not line or line.startswith("#"):
                     continue
                 resolv_list.append(Resolver(*line.split()[:2]))
     return resolv_list
