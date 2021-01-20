@@ -32,20 +32,27 @@ def list_dns() -> None:
 def update_resolv_file(content):
     resolv_file = Path("/etc", "resolv.conf")
     tmp_resolv_file = Path(gettempdir()).joinpath("resolv.conf")
-    if resolv_file.exists():
-        try:
-            shutil.move(resolv_file, tmp_resolv_file)
-            logger.debug(f"shecan moved {resolv_file} to {tmp_resolv_file}")
-            with open(resolv_file, mode="wt") as r_file:
-                for line in content:
-                    r_file.write(line + "\n")
-        except OSError as e:
-            logger.error(
-                f"Could not move resolv file ({resolv_file}) to "
-                + f" {tmp_resolv_file}: {e}"
-            )
+
+    # copy current resolv file into temp dir
+    try:
+        shutil.copy(resolv_file, tmp_resolv_file)
+    except FileNotFoundError:
+        logger.warn(f"Resolv file not found ({resolv_file!s}).")
+    except OSError as e:
+        logger.error(
+            f"Could not move resolv file ({resolv_file!s}) to "
+            + f" {tmp_resolv_file!s}: {e}"
+        )
     else:
-        logger.info(f"No resolv file to move ({resolv_file})")
+        logger.debug(f"shecan copied {resolv_file!s} to {tmp_resolv_file!s}")
+
+    # update resolv file according to given content
+    try:
+        with open(resolv_file, mode="wt") as r_file:
+            for line in content:
+                r_file.write(line + "\n")
+    except OSError as e:
+        logger.error(f"Could not update resolv file: {e}")
 
 
 def restore_resolv_file():
@@ -75,7 +82,11 @@ def verify_dns() -> None:
 
 def show_current_dns() -> None:
     """ List current dns servers in /etc/resolv.conf."""
-    resolvers = shecan.current_dns()
+    try:
+        resolvers = shecan.current_dns()
+    except FileNotFoundError:
+        logger.error("Resolv file does not exist.")
+        resolvers = []
     print(tabulate(resolvers, headers=["Type", "IP"], stralign="center"))
 
 
