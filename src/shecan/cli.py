@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 class TextStyle:
     GREEN = "\033[92m"
     RED = "\033[91m"
-    NC = "\033[31m"  # No Color
+    NC = "\033[0m"  # No Color
 
 
 def colorify(text: str, style: TextStyle):

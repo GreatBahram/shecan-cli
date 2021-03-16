@@ -11,7 +11,7 @@ The Shecan CLI is used to configure your DNS name server based on Shecan website
 
 For more about Shecan see https://shecan.ir/
 
-* I wrote this script, because I wanted to configure a couple of linux servers to be able to use docker hub, which are blocked in Iran. And I wanted to get a literally an agent to do it.
+* I wrote this script, because I wanted to configure a couple of linux servers to be able to use docker hub, which are blocked in Iran. And I wanted to get an agent to do it.
 
 ## Introduction
 
@@ -34,9 +34,9 @@ $ shecan/bin/pip install shecan
 ```
 # Quickstart
 
-* Run ``shecan update`` - It will get shecan DNS name servers and save them into database.
-* Run ``shecan list`` It will show shecan DNS name servers from the database.
-* Run ``shecan set --temporary`` It will configure your DNS temporarily by moving your current `/etc/resolv.conf` file and replace it with shecan DNS name server. **If you permission problem** run the command this way: `sudo -E $(which shecan) set --temporary`.
+* Run ``shecan update`` - It will get Shecan DNS name servers and save them into a configuration file.
+* Run ``shecan list`` It will show shecan DNS name servers from the configuration file.
+* Run ``shecan set `` This will change your DNS temporarily by moving your current `/etc/resolv.conf` file and replace it with shecan DNS name server. **If you encounter permission problem** run the command this way: `sudo $(which shecan) set`.
 * Run ``shecan verify`` It will check your DNS configuration and make sure that shecan works fine for you.
 * Run ``shecan restore`` It will restore your previous DNS configuration.
 * Run ``shecan show`` It will print your current DNS configuration.
