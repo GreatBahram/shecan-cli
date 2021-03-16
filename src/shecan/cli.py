@@ -6,7 +6,6 @@ import sys
 from pathlib import Path
 from tempfile import gettempdir
 
-from colorama import Fore, Style
 from tabulate import tabulate
 
 import shecan
@@ -14,10 +13,15 @@ import shecan.log
 
 logger = logging.getLogger(__name__)
 
-# colors
-GREEN = "\033[92m"
-RED = "\033[91m"
-RESET = "\033[31m"
+
+class TextStyle:
+    GREEN = "\033[92m"
+    RED = "\033[91m"
+    RESET = "\033[31m"
+
+
+def colorify(text: str, style: TextStyle):
+    return f"{style}{text}{TextStyle.RESET}"
 
 
 def list_dns() -> None:
@@ -44,7 +48,7 @@ def update_resolv_file(content):
             + f" {tmp_resolv_file!s}: {e}"
         )
     else:
-        logger.debug(f"shecan copied {resolv_file!s} to {tmp_resolv_file!s}")
+        logger.debug(f"Shecan copied {resolv_file!s} to {tmp_resolv_file!s}")
 
     # update resolv file according to given content
     try:
@@ -75,9 +79,9 @@ def verify_dns() -> None:
     result = socket.gethostbyname("check.shecan.ir")
     shecan_dns_nameservers = shecan.list_dns()
     if result in shecan_dns_nameservers:
-        print(f"Verified {Fore.GREEN}✓ {Style.RESET_ALL}")
+        print(f"Verified {colorify('✓', TextStyle.GREEN)}")
     else:
-        print(f"Unverified {Fore.RED}X {Style.RESET_ALL}")
+        print(f"Verified {colorify('X', TextStyle.RED)}")
 
 
 def show_current_dns() -> None:
@@ -113,22 +117,6 @@ def shecan_cli():
 
     # `set` command
     set_ = subparsers.add_parser("set", help="Set DNS configuration.")
-    group = set_.add_mutually_exclusive_group(required=True)
-    group.add_argument(
-        "--temporary",
-        action="store_const",
-        const="temporary",
-        dest="mode",
-        help="Write the DNS record inside /etc/resolv.conf file.",
-    )
-    group.add_argument(
-        "--permanent",
-        action="store_const",
-        const="permanent",
-        dest="mode",
-        default=False,
-        help="Write the DNS record permanently file.",
-    )
     set_.set_defaults(op="set")
 
     # `restore` command
@@ -160,19 +148,17 @@ def shecan_cli():
     elif args.op == "verify":
         verify_dns()
     elif args.op == "set":
-        content = [f"nameserver {dns_ip}" for dns_ip in shecan.list_dns()]
-        if not content:
-            logger.error("Could find Shecan DNS ip addresses in the config file.")
-            sys.exit(1)
 
         if sys.platform != "linux":
-            logger.error("Currently only Linux operating system are supported.")
+            logger.error("Currently only Linux operating system is supported.")
             sys.exit(2)
 
-        if args.mode == "temporary":
-            update_resolv_file(content)
-        else:
-            raise NotImplementedError("This feature has not been implemented yet.")
+        content = [f"nameserver {dns_ip}" for dns_ip in shecan.list_dns()]
+        if not content:
+            logger.error("Couldn't find Shecan DNS IP addresses in the config file.")
+            sys.exit(1)
+
+        update_resolv_file(content)
 
     elif args.op == "restore":
         restore_resolv_file()
