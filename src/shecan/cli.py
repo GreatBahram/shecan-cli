@@ -17,11 +17,11 @@ logger = logging.getLogger(__name__)
 class TextStyle:
     GREEN = "\033[92m"
     RED = "\033[91m"
-    RESET = "\033[31m"
+    NC = "\033[31m"  # No Color
 
 
 def colorify(text: str, style: TextStyle):
-    return f"{style}{text}{TextStyle.RESET}"
+    return f"{style}{text}{TextStyle.NC}"
 
 
 def list_dns() -> None:
