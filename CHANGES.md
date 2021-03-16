@@ -1,3 +1,7 @@
+## 0.4.1 (2021-03-16)
+
+- Use No Color ANSI code for ending color lines.
+
 ## 0.4.0 (2021-03-16)
 
 - Remove extraneous third-party libraries
