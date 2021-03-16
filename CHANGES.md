@@ -1,3 +1,9 @@
+## 0.4.0 (2021-03-16)
+
+- Remove extraneous third-party libraries
+- Use urllib.request library instead of a third-party library such as requests
+- Remove colorama library and use a custom approach for printing in color.
+
 ## 0.3.4 (2021-01-20)
 
 - Copy current resolv file instead of moving it: Moving resolv file is not allowed in docker env.
