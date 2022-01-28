@@ -8,7 +8,7 @@ DB_PATH = Path("~/.dns_db.cfg").expanduser()
 
 
 class ShecanConfig:
-    """Wrapper class for Shecan configuraton."""
+    """Wrapper class for Shecan configuration."""
 
     def __init__(self, config_file: str = DB_PATH) -> None:
         self.config_file = config_file
