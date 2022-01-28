@@ -1,7 +1,7 @@
 """
 shecan.api
 ~~~~~~~~~~~~
-This module implements Main API for shecan-cli project..
+This module implements Main API for shecan-cli project.
 """
 
 import sys
@@ -40,8 +40,8 @@ def current_dns() -> List[Resolver]:
     """ List current dns servers in /etc/resolv.conf."""
     resolv_list = []
     if sys.platform == "linux":
-        with open("/etc/resolv.conf", mode="rt") as resovl_file:
-            for line in resovl_file:
+        with open("/etc/resolv.conf", mode="rt") as resolv_file:
+            for line in resolv_file:
                 line = line.strip()
                 if not line or line.startswith("#"):
                     continue
