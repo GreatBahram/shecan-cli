@@ -71,3 +71,11 @@ select = [
     "UP",  # pyupgrade
     "W",   # pycodestyle warning
 ]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"**/tests/**/*.py" = [
+  "ANN",     # Ignores all type hints
+  "PLR0904", # Ignores "Too many public methods"
+  "PLR0913", # Ignores "Too many arguments to function call"
+  "PLR0917", # Ignores "Too many positional arguments" 
+]
