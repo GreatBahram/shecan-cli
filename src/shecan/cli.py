@@ -52,7 +52,7 @@ def update_resolv_file(content):
 
     # update resolv file according to given content
     try:
-        with open(resolv_file, mode="wt") as r_file:
+        with open(resolv_file, mode="w") as r_file:
             for line in content:
                 r_file.write(line + "\n")
     except OSError as e:

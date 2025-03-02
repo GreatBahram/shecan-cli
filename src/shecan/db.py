@@ -3,7 +3,6 @@
 from configparser import ConfigParser
 from pathlib import Path
 
-
 DB_PATH = Path("~/.dns_db.cfg").expanduser()
 
 
@@ -18,7 +17,7 @@ class ShecanConfig:
     def _initialize(self):
         """Initialize the shecan config file"""
         if not Path(self.config_file).exists():
-            with open(self.config_file, mode="wt") as fp:
+            with open(self.config_file, mode="w") as fp:
                 fp.write(f"[{self._name}]")
 
     def _read_config(self):
@@ -31,7 +30,7 @@ class ShecanConfig:
         return self
 
     def __exit__(self, *exceptions):
-        with open(self.config_file, mode="wt") as fp:
+        with open(self.config_file, mode="w") as fp:
             self._parser.write(fp)
 
     def update(self, ips: list):

@@ -43,3 +43,31 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["src/tests"]
+
+[tool.ruff]
+line-length = 88
+
+exclude = [".git", ".mypy_cache", ".ruff_cache", ".venv"]
+
+# Assume Python 3.09
+target-version = "py39"
+
+[tool.ruff.lint]
+select = [
+    "ANN", # flake8-annotations
+    "C4",  # flake8-comprehensions
+    "E",   # pycodestyle error
+    "F",   # Pyflakes
+    "I",   # isort
+    "INP", # flake8-no-pep420
+    "PGH", # pygrep-hooks
+    "PIE", # flake8-pie
+    "PLC", # Pylint convention
+    "PLE", # Pylint error
+    "PLR", # Pylint refactor
+    "PLW", # Pylint warning
+    "PYI", # flake8-pyi
+    "SIM", # flake8-simplify
+    "UP",  # pyupgrade
+    "W",   # pycodestyle warning
+]
