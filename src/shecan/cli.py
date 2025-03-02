@@ -34,7 +34,7 @@ def list_dns() -> None:
     print(tabulate(dns_servers, headers=["ID", "IP"], stralign="center"))
 
 
-def update_resolv_file(content) -> None:
+def update_resolv_file(content: list[str]) -> None:
     resolv_file = Path("/etc", "resolv.conf")
     tmp_resolv_file = Path(gettempdir()).joinpath("resolv.conf")
 

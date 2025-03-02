@@ -30,7 +30,7 @@ class ShecanConfig:
         self._read_config()
         return self
 
-    def __exit__(self, *exceptions):
+    def __exit__(self, *exceptions: object) -> None:
         with open(self.config_file, mode="w") as fp:
             self._parser.write(fp)
 

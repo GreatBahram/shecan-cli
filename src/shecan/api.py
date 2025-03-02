@@ -17,7 +17,7 @@ class Resolver(NamedTuple):
     ip: str = None
 
 
-def add(ips) -> int:
+def add(ips: tuple[str]) -> None:
     """Add a DNS (a DNS object) to the dns database."""
     with ShecanConfig() as config:
         config.update(ips)
@@ -42,7 +42,7 @@ def current_dns() -> list[Resolver]:
     if sys.platform == "linux":
         with open("/etc/resolv.conf") as resovl_file:
             for line in resovl_file:
-                line = line.strip()
+                line = line.strip()  # noqa: PLW2901
                 if not line or line.startswith("#"):
                     continue
                 resolv_list.append(Resolver(*line.split()[:2]))
