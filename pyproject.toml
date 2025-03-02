@@ -11,7 +11,7 @@ authors = [
     {name = "Bahram Aghaei", email = "aghaee.bahram@gmail.com"},
 ]
 license = {text = "Academic Free License, version 3"}
-requires-python = ">=3.6"
+requires-python = ">=3.9"
 classifiers = [
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.6",
@@ -31,8 +31,19 @@ Homepage = "https://github.com/GreatBahram/Shecan-cli/"
 [project.scripts]
 shecan = "shecan.cli:shecan_cli"
 
+[project.optional-dependencies]
+dev = [
+    "black>=25.1.0",
+    "flake8>=7.1.2",
+    "pre-commit>=4.1.0",
+    "pytest>=8.3.5",
+]
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.flake8]
 max-line-length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["src/tests"]

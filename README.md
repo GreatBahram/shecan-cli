@@ -22,20 +22,20 @@ For more about Shecan see https://shecan.ir/
 Install via one of these methods:
 
 with pip:
-```
+```shell
 python3 -m venv .venv
 source .venv/bin/activate
 pip install shecan
 ```
 Or with [pipx](https://pipx.pypa.io/stable/):
-```
+```shell
 pipx install shecan
 ```
 or with [uv](https://docs.astral.sh/uv/guides/tools/):
 ```shell
 uv tool install llm
 ```
-# Quickstart
+## Quickstart
 
 * Run ``shecan update`` - It will get Shecan DNS name servers and save them into a configuration file.
 * Run ``shecan list`` It will show shecan DNS name servers from the configuration file.
@@ -45,3 +45,24 @@ uv tool install llm
 * Run ``shecan show`` It will print your current DNS configuration.
 * Run ``shecan --version`` It will show shecan's version.
 * Run ``shecan --help`` It will show full command-line options and subcommands.
+
+## Contributing
+To contribute to this tool, first checkout the code. Then create a new virtual environment:
+```shell
+cd shecan-cli
+python -m venv venv
+source venv/bin/activate
+```
+Or if you are using [uv](https://docs.astral.sh/uv/):
+```shell
+uv sync
+```
+Now install the dependencies and test dependencies:
+```shell
+pip install -e '.[dev]'
+```
+Install pre-commit hooks to ensure code quality:
+```shell
+pre-commit install
+pre-commit install -t pre-push
+```
