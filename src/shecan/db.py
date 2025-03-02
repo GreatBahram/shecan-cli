@@ -14,13 +14,13 @@ class ShecanConfig:
         self._parser = ConfigParser()
         self._name = "shecan"
 
-    def _initialize(self):
+    def _initialize(self) -> None:
         """Initialize the shecan config file"""
         if not Path(self.config_file).exists():
             with open(self.config_file, mode="w") as fp:
                 fp.write(f"[{self._name}]")
 
-    def _read_config(self):
+    def _read_config(self) -> None:
         """Read the configuration from a file."""
         self._initialize()
         self._parser.read(self.config_file)
@@ -33,7 +33,7 @@ class ShecanConfig:
         with open(self.config_file, mode="w") as fp:
             self._parser.write(fp)
 
-    def update(self, ips: list):
+    def update(self, ips: list) -> None:
         """Store all Shecan's ip addresses."""
         self._parser[self._name]["dns-ips"] = ",".join(ips)
 

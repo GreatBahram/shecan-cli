@@ -5,7 +5,7 @@ This module implements Main API for shecan-cli project..
 """
 
 import sys
-from typing import List, NamedTuple
+from typing import NamedTuple
 
 from shecan.db import ShecanConfig
 from shecan.utils import get_shecan_ips
@@ -36,7 +36,7 @@ def list_dns():
     return ips
 
 
-def current_dns() -> List[Resolver]:
+def current_dns() -> list[Resolver]:
     """List current dns servers in /etc/resolv.conf."""
     resolv_list = []
     if sys.platform == "linux":

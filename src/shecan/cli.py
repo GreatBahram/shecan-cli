@@ -5,6 +5,7 @@ import socket
 import sys
 from pathlib import Path
 from tempfile import gettempdir
+from typing import Optional
 
 from tabulate import tabulate
 
@@ -20,7 +21,7 @@ class TextStyle:
     NC = "\033[0m"  # No Color
 
 
-def colorify(text: str, style: TextStyle):
+def colorify(text: str, style: TextStyle) -> str:
     return f"{style}{text}{TextStyle.NC}"
 
 
@@ -33,7 +34,7 @@ def list_dns() -> None:
     print(tabulate(dns_servers, headers=["ID", "IP"], stralign="center"))
 
 
-def update_resolv_file(content):
+def update_resolv_file(content) -> None:
     resolv_file = Path("/etc", "resolv.conf")
     tmp_resolv_file = Path(gettempdir()).joinpath("resolv.conf")
 
@@ -59,7 +60,7 @@ def update_resolv_file(content):
         logger.error(f"Could not update resolv file: {e}")
 
 
-def restore_resolv_file():
+def restore_resolv_file() -> None:
     tmp_resolv_file = Path(gettempdir(), "resolv.conf")
     resolv_file = Path("/etc", "resolv.conf")
     if tmp_resolv_file.exists():
@@ -94,7 +95,7 @@ def show_current_dns() -> None:
     print(tabulate(resolvers, headers=["Type", "IP"], stralign="center"))
 
 
-def shecan_cli():
+def shecan_cli() -> Optional[int]:
     parser = argparse.ArgumentParser(description="CLI for shecan.ir website.")
     parser.add_argument(
         "--debug",
