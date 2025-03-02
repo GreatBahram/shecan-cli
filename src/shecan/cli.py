@@ -85,7 +85,7 @@ def verify_dns() -> None:
 
 
 def show_current_dns() -> None:
-    """ List current dns servers in /etc/resolv.conf."""
+    """List current dns servers in /etc/resolv.conf."""
     try:
         resolvers = shecan.current_dns()
     except FileNotFoundError:
@@ -120,7 +120,10 @@ def shecan_cli():
     set_.set_defaults(op="set")
 
     # `restore` command
-    restore = subparsers.add_parser("restore", help="Restore old DNS configuration.")
+    restore = subparsers.add_parser(
+        "restore",
+        help="Restore old DNS configuration.",
+    )
     restore.set_defaults(op="restore")
 
     # `update` command
@@ -129,7 +132,8 @@ def shecan_cli():
 
     # `show` command
     show = subparsers.add_parser(
-        "show", help="Show your current dns servers in '/etc/resolv.conf'."
+        "show",
+        help="Show your current dns servers in '/etc/resolv.conf'.",
     )
     show.set_defaults(op="show")
 
@@ -148,14 +152,14 @@ def shecan_cli():
     elif args.op == "verify":
         verify_dns()
     elif args.op == "set":
-
         if sys.platform != "linux":
             logger.error("Currently only Linux operating system is supported.")
             sys.exit(2)
 
         content = [f"nameserver {dns_ip}" for dns_ip in shecan.list_dns()]
         if not content:
-            logger.error("Couldn't find Shecan DNS IP addresses in the config file.")
+            error_msg = "Couldn't find Shecan DNS IP addresses in the config file."
+            logger.error(error_msg)
             sys.exit(1)
 
         update_resolv_file(content)

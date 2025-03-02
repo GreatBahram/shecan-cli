@@ -46,11 +46,15 @@ class ShecanConfig:
             ips = []
         return ips
 
-    def delete(self,) -> None:
+    def delete(
+        self,
+    ) -> None:
         """Remove all Shecan's dns servers from configuration."""
         self._parser.remove_section(self._name)
         self._initialize()
 
-    def remove(self,) -> None:
+    def remove(
+        self,
+    ) -> None:
         """Remove the configuration file."""
         Path(self.config_file).unlink()
