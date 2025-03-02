@@ -19,18 +19,21 @@ For more about Shecan see https://shecan.ir/
 
 ## Installation
 
-The following instructions will place the shecan executable in a
-virtualenv under `shecan/bin/shecan`.
+Install via one of these methods:
 
-- Shecan **requires** `>= Python 3.6.1`
-
-### pip
-
-This installs the latest stable, released version.
-
+with pip:
 ```
-$ python3.6 -m venv shecan
-$ shecan/bin/pip install shecan
+python3 -m venv .venv
+source .venv/bin/activate
+pip install shecan
+```
+Or with [pipx](https://pipx.pypa.io/stable/):
+```
+pipx install shecan
+```
+or with [uv](https://docs.astral.sh/uv/guides/tools/):
+```shell
+uv tool install llm
 ```
 # Quickstart
 
