@@ -1,8 +1,8 @@
 import logging
-from typing import Any
+from argparse import Namespace
 
 
-def setup_logging(args: Any) -> logging.StreamHandler:
+def setup_logging(args: Namespace) -> logging.StreamHandler:
     console_handhler = logging.StreamHandler()
     formatter = logging.Formatter("%(asctime)s %(levelname)s: %(message)s")
     console_handhler.setFormatter(formatter)

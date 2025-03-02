@@ -5,7 +5,7 @@ This module implements Main API for shecan-cli project..
 """
 
 import sys
-from typing import List, NamedTuple
+from typing import NamedTuple
 
 from shecan.db import ShecanConfig
 from shecan.utils import get_shecan_ips
@@ -17,7 +17,7 @@ class Resolver(NamedTuple):
     ip: str = None
 
 
-def add(ips) -> int:
+def add(ips: tuple[str]) -> None:
     """Add a DNS (a DNS object) to the dns database."""
     with ShecanConfig() as config:
         config.update(ips)
@@ -29,20 +29,20 @@ def reset() -> None:
     conf.delete()
 
 
-def list_dns():
+def list_dns() -> list[str]:
     """Return a list of DNS objects."""
     with ShecanConfig() as conf:
         ips = conf.list_dns()
     return ips
 
 
-def current_dns() -> List[Resolver]:
+def current_dns() -> list[Resolver]:
     """List current dns servers in /etc/resolv.conf."""
     resolv_list = []
     if sys.platform == "linux":
-        with open("/etc/resolv.conf", mode="rt") as resovl_file:
+        with open("/etc/resolv.conf") as resovl_file:
             for line in resovl_file:
-                line = line.strip()
+                line = line.strip()  # noqa: PLW2901
                 if not line or line.startswith("#"):
                     continue
                 resolv_list.append(Resolver(*line.split()[:2]))

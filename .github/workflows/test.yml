@@ -18,3 +18,7 @@ jobs:
             - name: Run tests
               run: |
                 pytest
+            - name: Run formatter  & linter
+              run: |
+                ruff check .
+                ruff format . --check

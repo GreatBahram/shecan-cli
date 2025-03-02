@@ -33,17 +33,49 @@ shecan = "shecan.cli:shecan_cli"
 
 [project.optional-dependencies]
 dev = [
-    "black>=25.1.0",
-    "flake8>=7.1.2",
     "pre-commit>=4.1.0",
     "pytest>=8.3.5",
+    "ruff>=0.9.9",
 ]
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
-[tool.flake8]
-max-line-length = 88
-
 [tool.pytest.ini_options]
 testpaths = ["src/tests"]
+
+[tool.ruff]
+line-length = 88
+
+exclude = [".git", ".mypy_cache", ".ruff_cache", ".venv"]
+
+# Assume Python 3.09
+target-version = "py39"
+
+[tool.ruff.lint]
+select = [
+    "ANN", # flake8-annotations
+    "C4",  # flake8-comprehensions
+    "E",   # pycodestyle error
+    "F",   # Pyflakes
+    "I",   # isort
+    "INP", # flake8-no-pep420
+    "PGH", # pygrep-hooks
+    "PIE", # flake8-pie
+    "PLC", # Pylint convention
+    "PLE", # Pylint error
+    "PLR", # Pylint refactor
+    "PLW", # Pylint warning
+    "PYI", # flake8-pyi
+    "SIM", # flake8-simplify
+    "UP",  # pyupgrade
+    "W",   # pycodestyle warning
+]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"**/tests/**/*.py" = [
+  "ANN",     # Ignores all type hints
+  "PLR0904", # Ignores "Too many public methods"
+  "PLR0913", # Ignores "Too many arguments to function call"
+  "PLR0917", # Ignores "Too many positional arguments" 
+]
