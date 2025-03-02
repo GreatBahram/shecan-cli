@@ -50,16 +50,16 @@ uv tool install llm
 To contribute to this tool, first checkout the code. Then create a new virtual environment:
 ```shell
 cd shecan-cli
-python -m venv venv
-source venv/bin/activate
-```
-Or if you are using [uv](https://docs.astral.sh/uv/):
-```shell
-uv sync
+python -m venv .venv
+source .venv/bin/activate
 ```
 Now install the dependencies and test dependencies:
 ```shell
 pip install -e '.[dev]'
+```
+Or if you are using [uv](https://docs.astral.sh/uv/):
+```shell
+uv sync
 ```
 Install pre-commit hooks to ensure code quality:
 ```shell
