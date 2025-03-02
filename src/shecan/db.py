@@ -2,6 +2,7 @@
 
 from configparser import ConfigParser
 from pathlib import Path
+from typing import Self
 
 DB_PATH = Path("~/.dns_db.cfg").expanduser()
 
@@ -25,7 +26,7 @@ class ShecanConfig:
         self._initialize()
         self._parser.read(self.config_file)
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         self._read_config()
         return self
 
@@ -37,7 +38,7 @@ class ShecanConfig:
         """Store all Shecan's ip addresses."""
         self._parser[self._name]["dns-ips"] = ",".join(ips)
 
-    def list_dns(self):
+    def list_dns(self) -> list[str]:
         """Return list of Shecan's dns servers."""
         try:
             ips = self._parser[self._name]["dns-ips"].split(",")

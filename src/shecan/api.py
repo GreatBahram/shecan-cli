@@ -29,7 +29,7 @@ def reset() -> None:
     conf.delete()
 
 
-def list_dns():
+def list_dns() -> list[str]:
     """Return a list of DNS objects."""
     with ShecanConfig() as conf:
         ips = conf.list_dns()
