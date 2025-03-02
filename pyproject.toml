@@ -33,17 +33,13 @@ shecan = "shecan.cli:shecan_cli"
 
 [project.optional-dependencies]
 dev = [
-    "black>=25.1.0",
-    "flake8>=7.1.2",
     "pre-commit>=4.1.0",
     "pytest>=8.3.5",
+    "ruff>=0.9.9",
 ]
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
-[tool.flake8]
-max-line-length = 88
 
 [tool.pytest.ini_options]
 testpaths = ["src/tests"]
