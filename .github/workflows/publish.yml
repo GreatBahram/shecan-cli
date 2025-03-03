@@ -13,7 +13,6 @@ jobs:
             - name: Set up Python
               uses: actions/setup-python@v5
               with:
-                cache: pip
                 cache-dependency-path: pyproject.toml
             - name: Install the project
               run: uv sync --all-extras --dev
