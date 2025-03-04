@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "shecan"
-version = "0.4.2"
+version = "0.4.3"
 description = "The Shecan CLI is used to configure your DNS configuration based on Shecan website from the command line."
 readme = "README.md"
 authors = [
