@@ -42,7 +42,7 @@ def update_resolv_file(content: list[str]) -> None:
     try:
         shutil.copy(resolv_file, tmp_resolv_file)
     except FileNotFoundError:
-        logger.warn(f"Resolv file not found ({resolv_file!s}).")
+        logger.warning(f"Resolv file not found ({resolv_file!s}).")
     except OSError as e:
         logger.error(
             f"Could not move resolv file ({resolv_file!s}) to "
@@ -140,7 +140,7 @@ def shecan_cli() -> Optional[int]:
 
     args = parser.parse_args()
 
-    if len(sys.argv) == 1:
+    if len(sys.argv) == 1 or not hasattr(args, "op"):
         parser.print_help(sys.stderr)
         return 1
 

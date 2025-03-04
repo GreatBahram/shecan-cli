@@ -1,9 +1,3 @@
-"""
-Shecan CLI
-~~~~~~~~~~~~~~~~~~~~~
-The Shecan CLI https://shecan.ir
-"""
-
 from .api import current_dns, list_dns, update
 from .utils import get_shecan_ips as get_ips
 

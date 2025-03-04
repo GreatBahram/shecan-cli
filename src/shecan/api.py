@@ -1,9 +1,3 @@
-"""
-shecan.api
-~~~~~~~~~~~~
-This module implements Main API for shecan-cli project..
-"""
-
 import sys
 from typing import NamedTuple
 
