@@ -33,7 +33,7 @@ pipx install shecan
 ```
 or with [uv](https://docs.astral.sh/uv/guides/tools/):
 ```shell
-uv tool install llm
+uv tool install shecan
 ```
 ## Quickstart
 
